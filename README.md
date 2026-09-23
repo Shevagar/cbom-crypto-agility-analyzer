@@ -90,7 +90,7 @@ This project favors explicit uncertainty over unsupported conclusions. For examp
 python -m unittest discover -s tests -v
 ```
 
-GitHub Actions tests the project on supported Python versions.
+GitHub Actions tests the project on supported Python versions and validates the generated CBOM with the official CycloneDX CLI against CycloneDX 1.7.
 
 ## Documentation
 
@@ -108,7 +108,7 @@ All examples are fictional and contain no employer or customer material. See `SE
 
 ## Roadmap
 
-Next engineering milestones include configurable policy profiles, schema validation, richer X.509/DER/PKCS#12 parsing, cryptographic certificate/key matching, dependency/package detection, binary adapters, CI policy gates and additional TPM/PKCS#11/provider metadata.
+Next engineering milestones include configurable policy profiles, richer X.509/DER/PKCS#12 parsing, cryptographic certificate/key matching, dependency/package detection, binary adapters, CI policy gates and additional TPM/PKCS#11/provider metadata.
 
 ## License
 
