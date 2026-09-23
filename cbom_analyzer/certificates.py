@@ -37,14 +37,21 @@ def _decode_pem(path: Path):
     except (OSError, ssl.SSLError, ValueError):
         return None
 
-def _expiry(value):
+def _parse_cert_time(value):
     if not value:
         return None
     try:
-        dt=datetime.strptime(value,"%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
-        return dt < datetime.now(timezone.utc)
+        return datetime.strptime(value,"%b %d %H:%M:%S %Y %Z").replace(tzinfo=timezone.utc)
     except ValueError:
         return None
+
+def _iso_cert_time(value):
+    dt=_parse_cert_time(value)
+    return dt.isoformat().replace("+00:00","Z") if dt else None
+
+def _expiry(value):
+    dt=_parse_cert_time(value)
+    return dt < datetime.now(timezone.utc) if dt else None
 
 def scan_certificates(root: Path):
     paths=[root] if root.is_file() else list(root.rglob("*"))
@@ -62,10 +69,11 @@ def scan_certificates(root: Path):
         if not decoded:
             assets.append(CertificateAsset(str(path),None,None,None,None,None,None,None,None,None,"medium"))
             continue
+        raw_before=decoded.get("notBefore"); raw_after=decoded.get("notAfter")
         assets.append(CertificateAsset(
-            file=str(path), subject=_name(decoded.get("subject")), issuer=_name(decoded.get("issuer")),
-            serial_number=decoded.get("serialNumber"), not_before=decoded.get("notBefore"),
-            not_after=decoded.get("notAfter"), expired=_expiry(decoded.get("notAfter")),
-            public_key_algorithm=None, public_key_size=None, signature_algorithm=None,
+            file=str(path),subject=_name(decoded.get("subject")),issuer=_name(decoded.get("issuer")),
+            serial_number=decoded.get("serialNumber"),not_before=_iso_cert_time(raw_before),
+            not_after=_iso_cert_time(raw_after),expired=_expiry(raw_after),
+            public_key_algorithm=None,public_key_size=None,signature_algorithm=None,
         ))
     return assets
