@@ -1,7 +1,8 @@
 import uuid
 from datetime import datetime, timezone
 
-PRIMITIVES={"AES":"block-cipher","DES":"block-cipher","RSA":"pke","ECC":"unknown","DSA":"signature","MD5":"hash","SHA-1":"hash","SHA-2":"hash"}\nALGORITHM_FAMILIES={"AES":"AES","DES":"DES","DSA":"DSA","MD5":"MD5","SHA-1":"SHA-1","SHA-2":"SHA-2"}
+PRIMITIVES={"AES":"block-cipher","DES":"block-cipher","RSA":"pke","ECC":"unknown","DSA":"signature","MD5":"hash","SHA-1":"hash","SHA-2":"hash"}
+ALGORITHM_FAMILIES={"AES":"AES","DES":"DES","DSA":"DSA","MD5":"MD5","SHA-1":"SHA-1","SHA-2":"SHA-2"}
 
 def _primitive(a):
     if a.purpose in {"digital-signature","signature-verification"}: return "signature"
