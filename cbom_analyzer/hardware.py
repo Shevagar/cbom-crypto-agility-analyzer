@@ -19,7 +19,7 @@ class HardwareCryptoAsset:
 
 RULES=[
     ("TPM2", re.compile(r"\b(?:tpm2_|Esys_|Tss2_|TPM2_|Fapi_)",re.I), "hardware-backed", "unknown"),
-    ("PKCS#11", re.compile(r"\b(?:C_Initialize|C_OpenSession|C_FindObjects|C_Sign|C_Decrypt|CKM_|PKCS#11)\b",re.I), "token-backed", "unknown"),
+    ("PKCS#11", re.compile(r"\b(?:C_Initialize|C_OpenSession|C_FindObjects|C_Sign|C_Decrypt|C_GenerateKey|C_GenerateKeyPair|CKM_|PKCS#11)\b",re.I), "token-backed", "unknown"),
     ("OP-TEE", re.compile(r"\b(?:TEEC_|TEE_|OP-TEE|optee)\b",re.I), "trusted-execution-environment", "unknown"),
     ("Linux-keyring", re.compile(r"\b(?:keyctl|add_key|request_key)\b",re.I), "kernel-keyring", "unknown"),
     ("Cloud-KMS", re.compile(r"\b(?:kms:Sign|kms:Decrypt|KeyVault|CryptographyClient|cloudkms|KMSClient)\b",re.I), "remote-kms", "provider-controlled"),
