@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from .scanner import scan
 
-FIELDS=["name","category","file","line","evidence","key_size","status","quantum_vulnerable","pqc_migration_review","migration_family","confidence"]
+FIELDS=["name","category","file","line","evidence","key_size","status","quantum_vulnerable","pqc_migration_review","migration_family","confidence","purpose","purpose_confidence","severity","policy_reason","migration_priority"]
 
 def main():
     p=argparse.ArgumentParser(description="Discover cryptographic assets and create a crypto-agility inventory.")
@@ -20,6 +20,8 @@ def main():
         "findings":len(data),
         "quantum_vulnerable":sum(x["quantum_vulnerable"] for x in data),
         "legacy_or_deprecated":sum(x["status"] in {"legacy","deprecated"} for x in data),
+        "high_or_critical":sum(x["severity"] in {"high","critical"} for x in data),
+        "purpose_inferred":sum(x["purpose"] is not None for x in data),
     },"findings":data}
     if args.json_path:
         args.json_path.write_text(json.dumps(inventory,indent=2)+"\n",encoding="utf-8")
