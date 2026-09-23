@@ -21,7 +21,10 @@ def _key_ref(k,i):
 
 def _algorithm_component(a,i):
     ref=_algorithm_ref(a,i)
-    algorithm_properties={"primitive":_primitive(a)}\n    family=ALGORITHM_FAMILIES.get(a.name)\n    if family: algorithm_properties["algorithmFamily"]=family\n    props={"assetType":"algorithm","algorithmProperties":algorithm_properties}
+    algorithm_properties={"primitive":_primitive(a)}
+    family=ALGORITHM_FAMILIES.get(a.name)
+    if family: algorithm_properties["algorithmFamily"]=family
+    props={"assetType":"algorithm","algorithmProperties":algorithm_properties}
     if a.key_size: props["algorithmProperties"]["parameterSetIdentifier"]=str(a.key_size)
     funcs=_functions(a)
     if funcs: props["algorithmProperties"]["cryptoFunctions"]=funcs
