@@ -15,7 +15,8 @@ class CycloneDXTests(unittest.TestCase):
         self.assertEqual(component["type"],"cryptographic-asset")
         self.assertEqual(component["cryptoProperties"]["assetType"],"algorithm")
         self.assertEqual(component["cryptoProperties"]["algorithmProperties"]["primitive"],"signature")
-        self.assertEqual(component["cryptoProperties"]["algorithmProperties"]["parameterSetIdentifier"],"3072")\n        self.assertNotIn("algorithmFamily",component["cryptoProperties"]["algorithmProperties"])
+        self.assertEqual(component["cryptoProperties"]["algorithmProperties"]["parameterSetIdentifier"],"3072")
+        self.assertNotIn("algorithmFamily",component["cryptoProperties"]["algorithmProperties"])
 
     def test_registered_family_is_emitted(self):
         asset=CryptoAsset(name="AES",category="symmetric",file="enc.c",line=2,evidence="AES-256",
