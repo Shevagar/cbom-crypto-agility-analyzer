@@ -2,6 +2,7 @@ import argparse
 import csv
 import json
 from pathlib import Path
+from .cyclonedx import build_cyclonedx
 from .scanner import scan
 
 FIELDS=["name","category","file","line","evidence","key_size","status","quantum_vulnerable","pqc_migration_review","migration_family","confidence","purpose","purpose_confidence","severity","policy_reason","migration_priority"]
@@ -13,6 +14,7 @@ def main():
     s.add_argument("path", type=Path)
     s.add_argument("--json", dest="json_path", type=Path)
     s.add_argument("--csv", dest="csv_path", type=Path)
+    s.add_argument("--cyclonedx", dest="cyclonedx_path", type=Path, help="write CycloneDX 1.7 CBOM JSON")
     args=p.parse_args()
     findings=scan(args.path)
     data=[f.to_dict() for f in findings]
@@ -28,5 +30,8 @@ def main():
     if args.csv_path:
         with args.csv_path.open("w",newline="",encoding="utf-8") as fh:
             w=csv.DictWriter(fh,fieldnames=FIELDS); w.writeheader(); w.writerows(data)
+    if args.cyclonedx_path:
+        bom=build_cyclonedx(findings,args.path.name or "scanned-product")
+        args.cyclonedx_path.write_text(json.dumps(bom,indent=2)+"\n",encoding="utf-8")
     print(json.dumps(inventory["summary"],indent=2))
     return 0
