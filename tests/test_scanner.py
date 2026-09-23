@@ -29,5 +29,11 @@ class ScannerTests(unittest.TestCase):
         self.assertTrue(any(x.name=="OpenSSL" and x.confidence=="high" for x in findings))
         self.assertTrue(any(x.name=="SHA-2" for x in findings))
 
+    def test_infers_signature_purpose_for_nearby_rsa(self):
+        findings=self.scan_text('const char *key="RSA-3072";\nEVP_DigestSignInit(ctx, NULL, EVP_sha256(), NULL, key);')
+        rsa=next(x for x in findings if x.name=="RSA")
+        self.assertEqual(rsa.purpose,"digital-signature")
+        self.assertEqual(rsa.migration_family,"ML-DSA / SLH-DSA")
+
 if __name__=="__main__":
     unittest.main()
