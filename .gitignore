@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+coverage.xml
+htmlcov/
+*.cdx.json
+crypto-inventory.json
+pqc-roadmap.json
