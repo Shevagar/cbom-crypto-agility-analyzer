@@ -1,0 +1,6 @@
+{
+  "fail_on_severity": ["critical"],
+  "fail_on_algorithms": ["MD5", "SHA-1", "DES"],
+  "fail_on_private_key_material": true,
+  "warn_on_quantum_vulnerable": true
+}
